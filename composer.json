@@ -1,0 +1,17 @@
+{
+    "name": "susanbuck/rock-paper-scissors",
+    "description": "Rock Paper Scissors",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Susan Buck",
+            "email": "susanbuck@fas.harvard.edu"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "RPS\\": "src/"
+        }
+    }
+}
