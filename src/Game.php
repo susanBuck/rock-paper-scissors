@@ -102,9 +102,8 @@ class Game
      */
     private function persistResults(array $results)
     {
-        
-        # Get the existing session data, defaulting to an empty array if none exists
-        $_SESSION[$this->sessionKey] = $_SESSION[$this->sessionKey] ?: [];
+        # Get the existing session data
+        $_SESSION[$this->sessionKey] = $this->getResults() ?? [];
 
         # Add these results to the start
         array_unshift($_SESSION[$this->sessionKey], $results);
