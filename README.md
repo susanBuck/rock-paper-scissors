@@ -11,6 +11,8 @@ composer require susanbuck/rock-paper-scissors
 
 
 ## Usage
+Basic example:
+
 ```php
 require __DIR__.'/vendor/autoload.php';
 
@@ -18,11 +20,45 @@ use RPS\Game;
 
 $game = new Game();
 
-# Eack invocation of the `play` method will play and track a new round of player (given move) vs. computer
+# Each invocation of the `play` method will play and track a new round of player (given move) vs. computer
 $game->play('rock');
-$game->play('paper');
-$game->play('scissors');
-
-# An array of the results for each round (player move, computer move, whether player won) can be accessed from the `getResults` method
-var_dump($game->getResults());
 ```
+
+The Game class accepts three constructor parameters:
+
++ `bool persistResults`
+    + Indicates whether or not results should be persisted to the SESSION
+    + Defaults to `false`
++ `int $maxResults`
+    + Indicates the max # of results to record in the SESSION
+    + Defaults to `5`
++ `string $timezone`
+    + Indicates what timezone each round should be recorded in
+    + Defaults to `'America/New_York'`
+
+
+## Methods
+
+## `play(String $move): array`
+Accepts a string of either `'rock'`, `'paper'`, or `'scissors'`.
+
+Will halt the execution of the program if an invalid move is given.
+
+Returns an array of results:
+```
+[
+    'player' => player's move
+    'computer' => computer's move
+    'outcome' => outcome (won, lost, tie)
+    'timestamp' => timestamp for when the round was played
+];
+```
+
+## `getResults(): array`
+Returns an array of the last x results, where x is `$maxResults`.
+
+Returns null if `$persistResults` is set to `false`.
+
+
+## `clearResults(): void`
+Clears the session of results
