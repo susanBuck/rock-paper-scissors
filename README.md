@@ -26,7 +26,7 @@ $game->play('rock');
 
 The Game class accepts three constructor parameters:
 
-+ `bool persistResults`
++ `bool $persistResults`
     + Indicates whether or not results should be persisted to the SESSION
     + Defaults to `false`
 + `int $maxResults`
