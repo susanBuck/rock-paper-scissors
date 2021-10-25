@@ -6,15 +6,14 @@ class Game
 {
     private $persistResults;
     private $maxResults;
-    private $sessionKey = 'RPS_Results';
+    private $sessionKey = 'GAME_RESULTS';
+    protected $moves = ['rock', 'paper', 'scissors'];
 
     /**
-     * __construct
-     *
-     * @param bool $persistResults Whether or not results should be stored to the SESSION
-     * @param int $maxResults The max number of results to be stored to the session
-     * @param string $timezone The timezone to use for the results timestamp
-     * @return void
+     * Sets up game
+     * $persistResults: Whether or not results should be stored to the SESSION
+     * $maxResults: The max number of results to be stored to the session
+     * $timezone: The timezone to use for the results timestamp
      */
     public function __construct(bool $persistResults = false, int $maxResults = 5, string $timezone = 'America/New_York')
     {
@@ -32,34 +31,24 @@ class Game
 
 
     /**
-     * play
-     * Invoke with a move: rock, paper or scissors
-     * Returns an array of results with player, computer, outcome, timestamp
-     *
-     * @param string $move
-     * @return array
+     * Compare a given $playerMove against a randomly chosen computer move
+     * Returns an array of data with the results
      */
-    public function play(string $move)
+    public function play(string $playerMove)
     {
-        if (!$this->validate($move)) {
-            die('Invalid move: '.$move);
+        if (!$this->validate($playerMove)) {
+            die('Invalid move: ' . $playerMove);
         }
 
-        $computer = $this->getRandomMove();
+        $computerMove = $this->getRandomMove();
 
-        if ($computer == $move) {
-            $outcome = 'tie';
-        } elseif ($move == 'rock' and $computer == 'scissors' or $move == 'paper' and $computer == 'rock' or $move == 'scissors' and $computer == 'paper') {
-            $outcome = 'won';
-        } else {
-            $outcome = 'lost';
-        }
+        $outcome = $this->determineOutcome($playerMove, $computerMove);
 
         $results = [
-            'player' => $move,
-            'computer' => $computer,
+            'player' => $playerMove,
+            'computer' => $computerMove,
             'outcome' => $outcome,
-            'timestamp' => date('F j, Y, g:i:s a')
+            'timestamp' => date('g:i:s a')
         ];
 
         if ($this->persistResults) {
@@ -69,12 +58,24 @@ class Game
         return $results;
     }
 
+    /**
+     * Compares $playerMove against $computerMove and
+     * determines whether player tied, won, or lost
+     */
+    protected function determineOutcome($playerMove, $computerMove)
+    {
+        if ($computerMove == $playerMove) {
+            return 'tie';
+        } elseif ($playerMove == 'rock' and $computerMove == 'scissors' or $playerMove == 'paper' and $computerMove == 'rock' or $playerMove == 'scissors' and $computerMove == 'paper') {
+            return 'won';
+        } else {
+            return 'lost';
+        }
+    }
 
 
     /**
-     * getResults
      * Retrieve the results from the session
-     * @return void
      */
     public function getResults()
     {
@@ -83,10 +84,7 @@ class Game
 
 
     /**
-     * clearResults
      * Clear the results from the session
-     *
-     * @return void
      */
     public function clearResults()
     {
@@ -95,11 +93,7 @@ class Game
 
 
     /**
-     * persistResults
      * Persist the results to the session
-     *
-     * @param array $results
-     * @return void
      */
     private function persistResults(array $results)
     {
@@ -115,24 +109,19 @@ class Game
 
 
     /**
-     * validate
      * Confirm the given move is valid
-     * @param string $move
-     * @return void
      */
-    private function validate(string $move)
+    private function validate(string $playerMove)
     {
-        return in_array($move, ['rock', 'paper', 'scissors']);
+        return in_array($playerMove, $this->moves);
     }
 
 
     /**
-     * getRandomMove
-     * Get a random move of rock, paper, or scissors
-     * @return void
+     * Get a random move
      */
     private function getRandomMove()
     {
-        return ['rock','paper','scissors'][rand(0, 1)];
+        return $this->moves[rand(0, count($this->moves) - 1)];
     }
 }
