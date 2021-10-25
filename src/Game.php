@@ -8,7 +8,6 @@ class Game
     private $maxResults;
     private $sessionKey = 'RPS_Results';
 
-
     /**
      * __construct
      *
@@ -31,7 +30,7 @@ class Game
         }
     }
 
-    
+
     /**
      * play
      * Invoke with a move: rock, paper or scissors
@@ -69,6 +68,8 @@ class Game
 
         return $results;
     }
+
+
 
     /**
      * getResults

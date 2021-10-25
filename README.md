@@ -3,7 +3,6 @@
 An example package used to demonstrate dependencies in [DGMD E-2 Web Programming for Beginners with PHP](https://hesweb.dev/e2).
 
 
-
 ## Installation
 ```php
 composer require susanbuck/rock-paper-scissors
