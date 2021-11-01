@@ -17,7 +17,9 @@ class Game
      */
     public function __construct(bool $persistResults = false, int $maxResults = 5, string $timezone = 'America/New_York')
     {
-        session_start();
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
 
         date_default_timezone_set($timezone);
 
